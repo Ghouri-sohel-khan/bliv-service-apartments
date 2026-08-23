@@ -1,0 +1,22 @@
+# GitHub Ignore File for BLIV Serviced Apartments
+
+# Corrupted brochure asset (Must be completely ignored)
+Abbasi_Tower_Brochure.pdf
+
+# Large Source Documents (Not needed on the website)
+Abbasi_Tower_Brochure.docx
+Abbasi_Tower_Presentation.pptx
+
+# IDE and System Files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# OS / Local Cache Files
+*.log
+*.tmp
+.npm
+node_modules/
+dist/
+build/
