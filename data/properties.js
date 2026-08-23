@@ -29,10 +29,10 @@ window.BLIV_DATA.properties = [
     {
         id: "baitu-l-amaan",
         name: "Baitu-l-Amaan",
-        location: "Irram Manzil",
+        location: "Chintal, Hyderabad",
         route: "/baitu-l-amaan/",
         tagline: "Elegant sanctuary in Central Hyderabad",
-        description: "Baitu-l-Amaan is located in a quiet gated residential complex in central Hyderabad. Offering deep, spacious living areas, dedicated dining rooms, and equipped kitchens, it provides a peaceful residential stay ideal for families and traveling executives.",
+        description: "Baitu-l-Amaan is located at 10-1-50, Veer Nagar, Chintal, Hyderabad, Telangana 500004. Set in a quiet gated residential complex, it offers deep, spacious living areas, dedicated dining rooms, and equipped kitchens, providing a peaceful residential stay ideal for families and traveling executives.",
         roomTypes: [
             {
                 name: "Standard Family Suites",

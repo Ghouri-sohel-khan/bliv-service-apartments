@@ -244,6 +244,13 @@
     function parseUserIntent(text) {
         const query = text.toLowerCase().trim();
 
+        // Specific Baitu-l-Amaan address lookup (Safety & Exact matching)
+        if (matchesAny(query, ['address', 'where is', 'located', 'location']) && matchesAny(query, ['baitu', 'amaan'])) {
+            addBotMessage("Baitu-l-Amaan is located at 10-1-50, Veer Nagar, Chintal, Hyderabad, Telangana 500004.");
+            renderQuickReplies(["Plan My Stay", "Explore Properties", "Contact Reservations"]);
+            return;
+        }
+
         // 1. Simple Keyword matches
         // HELP
         if (matchesAny(query, ['help', 'menu', 'guide', 'can you', 'what can'])) {

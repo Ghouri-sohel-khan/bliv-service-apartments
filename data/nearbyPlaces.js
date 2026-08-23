@@ -27,14 +27,7 @@ window.BLIV_DATA.nearbyPlaces = {
             { name: "Tank Bund & Necklace Road Walks", description: "Perfect spots for leisure walks." }
         ]
     },
-    "baitu-l-amaan": {
-        metro: [
-            { name: "Irram Manzil Metro Station", description: "Conveniently located for easy commuting." }
-        ],
-        attractions: [
-            { name: "Irram Manzil Area Walks", description: "Quiet residential strolls within the gated vicinity." }
-        ]
-    },
+    "baitu-l-amaan": {},
     "banjara-hills": {
         restaurants: [
             { name: "Road No. 12 Dining Hub", description: "Surrounded by premium local restaurants, cafes, and gourmet eateries." }
