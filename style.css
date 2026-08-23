@@ -3534,5 +3534,77 @@ button {
     }
 }
 
+/* ==========================================================================
+   20. Cinematic Luxury Motion System Styles
+   ========================================================================== */
+
+/* Magnetic element transitions */
+.btn-primary, .btn-outline, .nav-cta, .btn-share-api, .btn-copy-property {
+    will-change: transform;
+}
+
+/* Subtle image frame hover settings */
+.frame-image-wrapper img {
+    will-change: transform;
+    transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.location-card {
+    will-change: transform;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.6s ease;
+}
+
+.location-card:hover {
+    box-shadow: 0 15px 45px rgba(0,0,0,0.06);
+    transform: translateY(-4px);
+}
+
+/* Page Overlay for Cinematic Transitions */
+#motion-page-overlay {
+    will-change: clip-path;
+}
+
+/* Custom cursor refinement */
+.custom-cursor {
+    mix-blend-mode: difference;
+    background-color: var(--color-white);
+    border: none;
+}
+
+.custom-cursor.hovered {
+    transform: translate(-50%, -50%) scale(2.2);
+    background-color: var(--color-sand);
+    mix-blend-mode: normal;
+}
+
+.custom-cursor.hovered .cursor-text {
+    opacity: 1;
+    color: var(--color-charcoal);
+    font-size: 0.35rem;
+    font-weight: 800;
+}
+
+/* Reduced Motion Safety */
+@media (prefers-reduced-motion: reduce) {
+    *, ::before, ::after {
+        animation-delay: -1ms !important;
+        animation-duration: 1ms !important;
+        animation-iteration-count: 1 !important;
+        background-attachment: initial !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0s !important;
+        transition-delay: 0s !important;
+    }
+    
+    #motion-page-overlay {
+        display: none !important;
+    }
+    
+    .custom-cursor {
+        display: none !important;
+    }
+}
+
+
 
 
