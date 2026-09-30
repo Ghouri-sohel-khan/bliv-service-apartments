@@ -886,19 +886,19 @@ button {
 .cube-showcase-section {
     position: relative;
     width: 100%;
+    min-height: 720px;
     background-color: var(--color-charcoal);
 }
 
 .cube-sticky-container {
-    position: sticky;
-    top: 0;
-    height: 100vh;
+    position: relative;
+    min-height: 720px;
     width: 100%;
     overflow: hidden;
     display: grid;
     grid-template-columns: 1.2fr 1fr;
     align-items: center;
-    padding: 0 var(--container-padding);
+    padding: 6rem var(--container-padding);
 }
 
 .cube-background-underlay {
@@ -1042,19 +1042,19 @@ button {
 .cube-face.front  { border-color: rgba(180, 154, 120, 0.8); }
 
 .cube-scroll-triggers {
-    position: relative;
-    z-index: 5;
-    pointer-events: none;
+    display: none;
 }
 
 .cube-trigger {
-    height: 100vh;
+    height: 0;
 }
 
 @media (max-width: 991px) {
     .cube-sticky-container {
         grid-template-columns: 1fr;
-        padding-top: var(--header-height);
+        min-height: 760px;
+        padding-top: calc(var(--header-height) + 3rem);
+        padding-bottom: 4rem;
         gap: 2rem;
     }
     .cube-3d-viewport {
