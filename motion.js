@@ -48,8 +48,13 @@
             const heroCta = document.querySelector('.hero-cta-wrapper');
             const scrollIndicator = document.querySelector('.scroll-indicator');
 
-            // Apply initial hidden states
-            if (hero) hero.style.opacity = '0';
+            // Keep the hero visible from the first paint. The previous full-hero
+            // fade could leave visitors on an empty screen when a browser delayed
+            // the animation timer or restored the page from cache.
+            if (hero) {
+                hero.style.opacity = '1';
+                hero.style.transition = 'opacity 1.2s ease';
+            }
             if (logo) {
                 logo.style.opacity = '0';
                 logo.style.transform = 'translateY(-15px)';
@@ -84,11 +89,7 @@
 
             // Timeline Sequence trigger
             setTimeout(() => {
-                // 1. Reveal page container & logo
-                if (hero) {
-                    hero.style.opacity = '1';
-                    hero.style.transition = 'opacity 1.2s ease';
-                }
+                // 1. Reveal logo and supporting hero details
                 if (logo) {
                     logo.style.opacity = '1';
                     logo.style.transform = 'translateY(0)';
@@ -390,53 +391,10 @@
        07. Page Transition Mask Overlay (Direct and back/forward browser compatibility)
        -------------------------------------------------------------------------- */
     function initPageTransitionOverlay() {
-        // Create dynamic loading overlay if not exists
-        let transitionOverlay = document.getElementById('motion-page-overlay');
-        if (!transitionOverlay) {
-            transitionOverlay = document.createElement('div');
-            transitionOverlay.id = 'motion-page-overlay';
-            transitionOverlay.style.position = 'fixed';
-            transitionOverlay.style.top = '0';
-            transitionOverlay.style.left = '0';
-            transitionOverlay.style.width = '100vw';
-            transitionOverlay.style.height = '100vh';
-            transitionOverlay.style.backgroundColor = 'var(--color-charcoal)';
-            transitionOverlay.style.zIndex = '9999';
-            transitionOverlay.style.pointerEvents = 'none';
-            transitionOverlay.style.clipPath = 'inset(0% 0% 100% 0%)';
-            transitionOverlay.style.transition = 'clip-path 0.7s cubic-bezier(0.76, 0, 0.24, 1)';
-            document.body.appendChild(transitionOverlay);
-        }
-
-        // Intercept local page transition links
-        const links = document.querySelectorAll('a[href*="/baitu-l-amaan"], a[href*="/banjara-hills"], a[href*="/hill-plaza-shaikhpet"], a[href*="/abbasi-tower"], a[href$="../"], a[href$="/index.html"]');
-        
-        links.forEach(link => {
-            link.addEventListener('click', (e) => {
-                const targetHref = link.getAttribute('href');
-                // Skip if anchor link on current page
-                if (targetHref.startsWith('#')) return;
-
-                e.preventDefault();
-                
-                // Lock interactions
-                transitionOverlay.style.pointerEvents = 'all';
-                // Slide up the overlay mask (revealing charcoal)
-                transitionOverlay.style.clipPath = 'inset(0% 0% 0% 0%)';
-
-                setTimeout(() => {
-                    window.location.href = targetHref;
-                }, 700);
-            });
-        });
-
-        // Hide overlay on back/forward browser navigation loads
-        window.addEventListener('pageshow', (event) => {
-            // If page is loaded from cache (like back button)
-            if (event.persisted) {
-                transitionOverlay.style.clipPath = 'inset(0% 0% 100% 0%)';
-                transitionOverlay.style.pointerEvents = 'none';
-            }
-        });
+        // Native navigation is immediate and reliable. The former full-screen
+        // charcoal mask occasionally stayed open while a route was loading,
+        // creating an empty screen before visitors could see the next page.
+        const existingOverlay = document.getElementById('motion-page-overlay');
+        if (existingOverlay) existingOverlay.remove();
     }
 })();
