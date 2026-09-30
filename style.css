@@ -437,6 +437,21 @@ button {
     overflow: hidden;
 }
 
+/* Never allow an entrance effect to hide the first visible page. */
+.hero-section {
+    opacity: 1 !important;
+}
+
+.property-hero {
+    opacity: 1 !important;
+    clip-path: none !important;
+}
+
+/* Kept as a safety net for visitors with a cached older motion script. */
+#motion-page-overlay {
+    display: none !important;
+}
+
 .hero-bg-overlay {
     position: absolute;
     top: 0;
