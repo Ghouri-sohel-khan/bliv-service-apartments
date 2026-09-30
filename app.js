@@ -226,7 +226,6 @@ function init3DCubeScroll() {
     const cube = document.getElementById('rotating-cube');
     const bgImages = document.querySelectorAll('.cube-bg-image');
     const bullets = document.querySelectorAll('.cube-progress-bullets .bullet');
-    const triggers = document.querySelectorAll('.cube-scroll-triggers .cube-trigger');
 
     if (!section || !cube) return;
 
@@ -264,14 +263,17 @@ function init3DCubeScroll() {
         });
     }
 
-    // Scroll listener linking trigger offsets to active cube face index
+    // Keep the cube compact: only enable scroll-driven rotation when a page
+    // intentionally gives the section extra height.
     window.addEventListener('scroll', () => {
         const rect = section.getBoundingClientRect();
         const height = section.offsetHeight;
+        const scrollRange = height - window.innerHeight;
+
+        if (scrollRange <= 0) return;
         
         if (rect.top <= 0 && rect.bottom >= window.innerHeight) {
             const scrolledAmt = -rect.top;
-            const scrollRange = height - window.innerHeight;
             const scrollPercent = scrolledAmt / scrollRange;
             
             // Calculate active face step index (0 to 5)
@@ -284,14 +286,15 @@ function init3DCubeScroll() {
         }
     });
 
-    // Let bullet click scroll smoothly to corresponding trigger index
+    // Let visitors switch the cube face directly without creating empty
+    // viewport-sized scroll panels.
     bullets.forEach((bullet, idx) => {
         bullet.addEventListener('click', () => {
-            if (triggers[idx]) {
-                triggers[idx].scrollIntoView({ behavior: 'smooth' });
-            }
+            updateCube(idx);
         });
     });
+
+    updateCube(0);
 }
 
 /* --------------------------------------------------------------------------
