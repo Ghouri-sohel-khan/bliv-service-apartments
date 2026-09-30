@@ -16,6 +16,7 @@ const revealObserver = new IntersectionObserver((entries, observer) => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
+    initDeferredBackgrounds();
     initCustomCursor();
     initScrollProgressAndHeader();
     initMobileMenu();
@@ -31,6 +32,36 @@ document.addEventListener('DOMContentLoaded', () => {
         revealObserver.observe(el);
     });
 });
+
+/* --------------------------------------------------------------------------
+   Image delivery
+   -------------------------------------------------------------------------- */
+function initDeferredBackgrounds() {
+    const backgroundItems = [...document.querySelectorAll('[data-bg]')];
+    if (!backgroundItems.length) return;
+
+    const loadBackground = (element) => {
+        if (element.dataset.bgLoaded === 'true') return;
+        element.style.backgroundImage = `url("${element.dataset.bg}")`;
+        element.dataset.bgLoaded = 'true';
+    };
+
+    const observer = new IntersectionObserver((entries, currentObserver) => {
+        entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            loadBackground(entry.target);
+            currentObserver.unobserve(entry.target);
+        });
+    }, { rootMargin: '300px 0px' });
+
+    backgroundItems.forEach((element) => {
+        if (element.classList.contains('active')) {
+            loadBackground(element);
+        } else {
+            observer.observe(element);
+        }
+    });
+}
 
 /* --------------------------------------------------------------------------
    01. Premium Custom Cursor (Desktop Only)
@@ -269,69 +300,69 @@ function init3DCubeScroll() {
 // Exact audited local asset list configs
 const PROPERTY_IMAGES = {
     baitu: [
-        { url: "Baitu-l-%20Amaan/ChatGPT%20Image%20Aug%204,%202026,%2012_16_46%20PM.png", title: "Living Lounge", desc: "Spacious seating arrangement matching rich ivory textures." },
-        { url: "Baitu-l-%20Amaan/ChatGPT%20Image%20Aug%204,%202026,%2012_18_17%20PM.png", title: "Formal Dining", desc: "Clean table settings designed for home dining." },
-        { url: "Baitu-l-%20Amaan/ChatGPT%20Image%20Aug%204,%202026,%2012_20_02%20PM.png", title: "Master Bed Suite", desc: "Orthopedic bedding suite focusing on peaceful nights." },
-        { url: "Baitu-l-%20Amaan/ChatGPT%20Image%20Aug%204,%202026,%2012_21_28%20PM.png", title: "Common Living Space", desc: "Spacious corridors and open layout designed for families." },
-        { url: "Baitu-l-%20Amaan/ChatGPT%20Image%20Aug%204,%202026,%2012_23_20%20PM.png", title: "Guest Bedroom", desc: "Plush linens and minimalistic layout designed to settle in." },
-        { url: "Baitu-l-%20Amaan/ChatGPT%20Image%20Aug%204,%202026,%2012_25_53%20PM.png", title: "Sofa Lounge Details", desc: "Warm ambient light filtering through custom glass doors." },
-        { url: "Baitu-l-%20Amaan/ChatGPT%20Image%20Aug%204,%202026,%2012_27_29%20PM.png", title: "Dining Detail", desc: "Bespoke setups supporting long term residential stay." },
-        { url: "Baitu-l-%20Amaan/ChatGPT%20Image%20Aug%204,%202026,%2012_29_14%20PM.png", title: "Fully Equipped Kitchen", desc: "Functional modern cabinets and refrigerator setup." },
-        { url: "Baitu-l-%20Amaan/ChatGPT%20Image%20Aug%204,%202026,%2012_31_08%20PM.png", title: "Kitchen Prep Details", desc: "Equipped cooking space designed for everyday comfort." },
-        { url: "Baitu-l-%20Amaan/ChatGPT%20Image%20Aug%204,%202026,%2012_32_31%20PM.png", title: "Bathroom details", desc: "Clean fixtures and continuous hot water systems." },
-        { url: "Baitu-l-%20Amaan/ChatGPT%20Image%20Aug%204,%202026,%2012_35_14%20PM.png", title: "Living room TV angle", desc: "Installed smart entertainment layout." },
-        { url: "Baitu-l-%20Amaan/ChatGPT%20Image%20Aug%204,%202026,%2012_38_39%20PM.png", title: "Bedroom storage", desc: "Bespoke wooden wardrobes and drawers." },
-        { url: "Baitu-l-%20Amaan/ChatGPT%20Image%20Aug%204,%202026,%2012_40_34%20PM.png", title: "Bed side study workspace", desc: "Quiet workspace corner tailored for executives." },
-        { url: "Baitu-l-%20Amaan/ChatGPT%20Image%20Aug%204,%202026,%2012_43_19%20PM.png", title: "Bathroom wash basin", desc: "Clean marble vanity mirrors." },
-        { url: "Baitu-l-%20Amaan/ChatGPT%20Image%20Aug%204,%202026,%2012_53_03%20PM.png", title: "Secondary bedroom layout", desc: "Soft dimmable lights for quiet sleep." }
+        { url: "Baitu-l-%20Amaan/ChatGPT%20Image%20Aug%204,%202026,%2012_16_46%20PM.webp", title: "Living Lounge", desc: "Spacious seating arrangement matching rich ivory textures." },
+        { url: "Baitu-l-%20Amaan/ChatGPT%20Image%20Aug%204,%202026,%2012_18_17%20PM.webp", title: "Formal Dining", desc: "Clean table settings designed for home dining." },
+        { url: "Baitu-l-%20Amaan/ChatGPT%20Image%20Aug%204,%202026,%2012_20_02%20PM.webp", title: "Master Bed Suite", desc: "Orthopedic bedding suite focusing on peaceful nights." },
+        { url: "Baitu-l-%20Amaan/ChatGPT%20Image%20Aug%204,%202026,%2012_21_28%20PM.webp", title: "Common Living Space", desc: "Spacious corridors and open layout designed for families." },
+        { url: "Baitu-l-%20Amaan/ChatGPT%20Image%20Aug%204,%202026,%2012_23_20%20PM.webp", title: "Guest Bedroom", desc: "Plush linens and minimalistic layout designed to settle in." },
+        { url: "Baitu-l-%20Amaan/ChatGPT%20Image%20Aug%204,%202026,%2012_25_53%20PM.webp", title: "Sofa Lounge Details", desc: "Warm ambient light filtering through custom glass doors." },
+        { url: "Baitu-l-%20Amaan/ChatGPT%20Image%20Aug%204,%202026,%2012_27_29%20PM.webp", title: "Dining Detail", desc: "Bespoke setups supporting long term residential stay." },
+        { url: "Baitu-l-%20Amaan/ChatGPT%20Image%20Aug%204,%202026,%2012_29_14%20PM.webp", title: "Fully Equipped Kitchen", desc: "Functional modern cabinets and refrigerator setup." },
+        { url: "Baitu-l-%20Amaan/ChatGPT%20Image%20Aug%204,%202026,%2012_31_08%20PM.webp", title: "Kitchen Prep Details", desc: "Equipped cooking space designed for everyday comfort." },
+        { url: "Baitu-l-%20Amaan/ChatGPT%20Image%20Aug%204,%202026,%2012_32_31%20PM.webp", title: "Bathroom details", desc: "Clean fixtures and continuous hot water systems." },
+        { url: "Baitu-l-%20Amaan/ChatGPT%20Image%20Aug%204,%202026,%2012_35_14%20PM.webp", title: "Living room TV angle", desc: "Installed smart entertainment layout." },
+        { url: "Baitu-l-%20Amaan/ChatGPT%20Image%20Aug%204,%202026,%2012_38_39%20PM.webp", title: "Bedroom storage", desc: "Bespoke wooden wardrobes and drawers." },
+        { url: "Baitu-l-%20Amaan/ChatGPT%20Image%20Aug%204,%202026,%2012_40_34%20PM.webp", title: "Bed side study workspace", desc: "Quiet workspace corner tailored for executives." },
+        { url: "Baitu-l-%20Amaan/ChatGPT%20Image%20Aug%204,%202026,%2012_43_19%20PM.webp", title: "Bathroom wash basin", desc: "Clean marble vanity mirrors." },
+        { url: "Baitu-l-%20Amaan/ChatGPT%20Image%20Aug%204,%202026,%2012_53_03%20PM.webp", title: "Secondary bedroom layout", desc: "Soft dimmable lights for quiet sleep." }
     ],
     banjara: {
         "2bhk": [
-            { url: "Banjara%20Hills/Banjara%20Hilis%202BHK/ChatGPT%20Image%20Aug%204,%202026,%2001_19_32%20PM.png", title: "2BHK Living Room", desc: "Inviting seating space optimized for relaxation." },
-            { url: "Banjara%20Hills/Banjara%20Hilis%202BHK/ChatGPT%20Image%20Aug%204,%202026,%2001_21_45%20PM.png", title: "2BHK Living Room Angle 2", desc: "Broad layout configurations providing comfortable spacing." },
-            { url: "Banjara%20Hills/Banjara%20Hilis%202BHK/ChatGPT%20Image%20Aug%204,%202026,%2001_23_21%20PM.png", title: "2BHK Master Bed", desc: "Soft orthopedic pillows and clean sheets." },
-            { url: "Banjara%20Hills/Banjara%20Hilis%202BHK/ChatGPT%20Image%20Aug%204,%202026,%2001_24_45%20PM.png", title: "2BHK Bedroom Workspace", desc: "Work table and vanity arrangements." },
-            { url: "Banjara%20Hills/Banjara%20Hilis%202BHK/ChatGPT%20Image%20Aug%205,%202026,%2003_21_13%20PM.png", title: "2BHK Dining Corridor", desc: "Connecting halls styled with sand tones." },
-            { url: "Banjara%20Hills/Banjara%20Hilis%202BHK/ChatGPT%20Image%20Aug%205,%202026,%2003_22_36%20PM.png", title: "2BHK Modular Kitchen", desc: "Equipped cooking counter for family meals." },
-            { url: "Banjara%20Hills/Banjara%20Hilis%202BHK/ChatGPT%20Image%20Aug%205,%202026,%2003_23_48%20PM.png", title: "2BHK Bathroom detailing", desc: "Functional bathroom with modern fixtures." },
-            { url: "Banjara%20Hills/Banjara%20Hilis%202BHK/ChatGPT%20Image%20Aug%205,%202026,%2003_44_48%20PM.png", title: "2BHK Suite Overview", desc: "Premium serviced layout for short or long-stay visits." }
+            { url: "Banjara%20Hills/Banjara%20Hilis%202BHK/ChatGPT%20Image%20Aug%204,%202026,%2001_19_32%20PM.webp", title: "2BHK Living Room", desc: "Inviting seating space optimized for relaxation." },
+            { url: "Banjara%20Hills/Banjara%20Hilis%202BHK/ChatGPT%20Image%20Aug%204,%202026,%2001_21_45%20PM.webp", title: "2BHK Living Room Angle 2", desc: "Broad layout configurations providing comfortable spacing." },
+            { url: "Banjara%20Hills/Banjara%20Hilis%202BHK/ChatGPT%20Image%20Aug%204,%202026,%2001_23_21%20PM.webp", title: "2BHK Master Bed", desc: "Soft orthopedic pillows and clean sheets." },
+            { url: "Banjara%20Hills/Banjara%20Hilis%202BHK/ChatGPT%20Image%20Aug%204,%202026,%2001_24_45%20PM.webp", title: "2BHK Bedroom Workspace", desc: "Work table and vanity arrangements." },
+            { url: "Banjara%20Hills/Banjara%20Hilis%202BHK/ChatGPT%20Image%20Aug%205,%202026,%2003_21_13%20PM.webp", title: "2BHK Dining Corridor", desc: "Connecting halls styled with sand tones." },
+            { url: "Banjara%20Hills/Banjara%20Hilis%202BHK/ChatGPT%20Image%20Aug%205,%202026,%2003_22_36%20PM.webp", title: "2BHK Modular Kitchen", desc: "Equipped cooking counter for family meals." },
+            { url: "Banjara%20Hills/Banjara%20Hilis%202BHK/ChatGPT%20Image%20Aug%205,%202026,%2003_23_48%20PM.webp", title: "2BHK Bathroom detailing", desc: "Functional bathroom with modern fixtures." },
+            { url: "Banjara%20Hills/Banjara%20Hilis%202BHK/ChatGPT%20Image%20Aug%205,%202026,%2003_44_48%20PM.webp", title: "2BHK Suite Overview", desc: "Premium serviced layout for short or long-stay visits." }
         ],
         "3bhk": [
-            { url: "Banjara%20Hills/Banjara%20hills%203BHK%20one%20common%20and%20one%20attached%20Bathroom/ChatGPT%20Image%20Aug%204,%202026,%2001_32_43%20AM.png", title: "3BHK Suite Living Area", desc: "Massive living hall designed with premium details." },
-            { url: "Banjara%20Hills/Banjara%20hills%203BHK%20one%20common%20and%20one%20attached%20Bathroom/ChatGPT%20Image%20Aug%204,%202026,%2001_34_20%20AM.png", title: "3BHK Dining Table", desc: "Broad dining setup next to the living lounge." },
-            { url: "Banjara%20Hills/Banjara%20hills%203BHK%20one%20common%20and%20one%20attached%20Bathroom/ChatGPT%20Image%20Aug%204,%202026,%2001_35_38%20AM.png", title: "3BHK Master Bedroom", desc: "Cozy primary bedroom with attached bathroom." },
-            { url: "Banjara%20Hills/Banjara%20hills%203BHK%20one%20common%20and%20one%20attached%20Bathroom/ChatGPT%20Image%20Aug%204,%202026,%2001_37_10%20AM.png", title: "3BHK Secondary Bedroom", desc: "Clean secondary bedroom for families." },
-            { url: "Banjara%20Hills/Banjara%20hills%203BHK%20one%20common%20and%20one%20attached%20Bathroom/ChatGPT%20Image%20Aug%204,%202026,%2001_38_40%20AM.png", title: "3BHK Guest Room", desc: "Quiet bedroom space designed for executive stays." },
-            { url: "Banjara%20Hills/Banjara%20hills%203BHK%20one%20common%20and%20one%20attached%20Bathroom/ChatGPT%20Image%20Aug%204,%202026,%2001_39_50%20AM.png", title: "3BHK Attached Bathroom", desc: "Clean tiles and continuous hot water supply." },
-            { url: "Banjara%20Hills/Banjara%20hills%203BHK%20one%20common%20and%20one%20attached%20Bathroom/ChatGPT%20Image%20Aug%204,%202026,%2001_48_22%20AM.png", title: "3BHK Kitchen Space", desc: "Practical kitchen equipped with microwave and refrigerator." }
+            { url: "Banjara%20Hills/Banjara%20hills%203BHK%20one%20common%20and%20one%20attached%20Bathroom/ChatGPT%20Image%20Aug%204,%202026,%2001_32_43%20AM.webp", title: "3BHK Suite Living Area", desc: "Massive living hall designed with premium details." },
+            { url: "Banjara%20Hills/Banjara%20hills%203BHK%20one%20common%20and%20one%20attached%20Bathroom/ChatGPT%20Image%20Aug%204,%202026,%2001_34_20%20AM.webp", title: "3BHK Dining Table", desc: "Broad dining setup next to the living lounge." },
+            { url: "Banjara%20Hills/Banjara%20hills%203BHK%20one%20common%20and%20one%20attached%20Bathroom/ChatGPT%20Image%20Aug%204,%202026,%2001_35_38%20AM.webp", title: "3BHK Master Bedroom", desc: "Cozy primary bedroom with attached bathroom." },
+            { url: "Banjara%20Hills/Banjara%20hills%203BHK%20one%20common%20and%20one%20attached%20Bathroom/ChatGPT%20Image%20Aug%204,%202026,%2001_37_10%20AM.webp", title: "3BHK Secondary Bedroom", desc: "Clean secondary bedroom for families." },
+            { url: "Banjara%20Hills/Banjara%20hills%203BHK%20one%20common%20and%20one%20attached%20Bathroom/ChatGPT%20Image%20Aug%204,%202026,%2001_38_40%20AM.webp", title: "3BHK Guest Room", desc: "Quiet bedroom space designed for executive stays." },
+            { url: "Banjara%20Hills/Banjara%20hills%203BHK%20one%20common%20and%20one%20attached%20Bathroom/ChatGPT%20Image%20Aug%204,%202026,%2001_39_50%20AM.webp", title: "3BHK Attached Bathroom", desc: "Clean tiles and continuous hot water supply." },
+            { url: "Banjara%20Hills/Banjara%20hills%203BHK%20one%20common%20and%20one%20attached%20Bathroom/ChatGPT%20Image%20Aug%204,%202026,%2001_48_22%20AM.webp", title: "3BHK Kitchen Space", desc: "Practical kitchen equipped with microwave and refrigerator." }
         ]
     },
     hill: {
         "1bhk": [
-            { url: "Hill%20plaza-Shaikhpet/1BHK%20Shaikhpet/ChatGPT%20Image%20Aug%205,%202026,%2004_30_08%20PM.png", title: "1BHK Living Lounge", desc: "Inviting layout featuring wide landscape windows." },
-            { url: "Hill%20plaza-Shaikhpet/1BHK%20Shaikhpet/ChatGPT%20Image%20Aug%205,%202026,%2004_31_31%20PM.png", title: "1BHK Living Area view 2", desc: "Comfortable sofa seating layout close to transit metro." },
-            { url: "Hill%20plaza-Shaikhpet/1BHK%20Shaikhpet/ChatGPT%20Image%20Aug%205,%202026,%2004_33_17%20PM.png", title: "1BHK Bedroom suite", desc: "A cozy sleep setup for solo consultants." },
-            { url: "Hill%20plaza-Shaikhpet/1BHK%20Shaikhpet/ChatGPT%20Image%20Aug%205,%202026,%2004_36_26%20PM.png", title: "1BHK Executive Desk", desc: "Writing table optimized for remote work." },
-            { url: "Hill%20plaza-Shaikhpet/1BHK%20Shaikhpet/ChatGPT%20Image%20Aug%205,%202026,%2004_41_47%20PM.png", title: "1BHK Bathroom Details", desc: "Clean shower fixtures and geyser." }
+            { url: "Hill%20plaza-Shaikhpet/1BHK%20Shaikhpet/ChatGPT%20Image%20Aug%205,%202026,%2004_30_08%20PM.webp", title: "1BHK Living Lounge", desc: "Inviting layout featuring wide landscape windows." },
+            { url: "Hill%20plaza-Shaikhpet/1BHK%20Shaikhpet/ChatGPT%20Image%20Aug%205,%202026,%2004_31_31%20PM.webp", title: "1BHK Living Area view 2", desc: "Comfortable sofa seating layout close to transit metro." },
+            { url: "Hill%20plaza-Shaikhpet/1BHK%20Shaikhpet/ChatGPT%20Image%20Aug%205,%202026,%2004_33_17%20PM.webp", title: "1BHK Bedroom suite", desc: "A cozy sleep setup for solo consultants." },
+            { url: "Hill%20plaza-Shaikhpet/1BHK%20Shaikhpet/ChatGPT%20Image%20Aug%205,%202026,%2004_36_26%20PM.webp", title: "1BHK Executive Desk", desc: "Writing table optimized for remote work." },
+            { url: "Hill%20plaza-Shaikhpet/1BHK%20Shaikhpet/ChatGPT%20Image%20Aug%205,%202026,%2004_41_47%20PM.webp", title: "1BHK Bathroom Details", desc: "Clean shower fixtures and geyser." }
         ],
         "single": [
-            { url: "Hill%20plaza-Shaikhpet/Single%20room/ChatGPT%20Image%20Aug%205,%202026,%2004_06_03%20PM.png", title: "Single Executive Room", desc: "Compact suite designed for short business commutes." },
-            { url: "Hill%20plaza-Shaikhpet/Single%20room/ChatGPT%20Image%20Aug%205,%202026,%2004_08_45%20PM.png", title: "Single Room layout", desc: "Minimalist wardrobe and comfortable bed setups." },
-            { url: "Hill%20plaza-Shaikhpet/Single%20room/ChatGPT%20Image%20Aug%205,%202026,%2004_11_28%20PM.png", title: "Single Room writing workspace", desc: "Equipped work corner to stay productive." },
-            { url: "Hill%20plaza-Shaikhpet/Single%20room/ChatGPT%20Image%20Aug%205,%202026,%2004_13_40%20PM.png", title: "Bathroom facility", desc: "Clean hygiene setups and toiletries." }
+            { url: "Hill%20plaza-Shaikhpet/Single%20room/ChatGPT%20Image%20Aug%205,%202026,%2004_06_03%20PM.webp", title: "Single Executive Room", desc: "Compact suite designed for short business commutes." },
+            { url: "Hill%20plaza-Shaikhpet/Single%20room/ChatGPT%20Image%20Aug%205,%202026,%2004_08_45%20PM.webp", title: "Single Room layout", desc: "Minimalist wardrobe and comfortable bed setups." },
+            { url: "Hill%20plaza-Shaikhpet/Single%20room/ChatGPT%20Image%20Aug%205,%202026,%2004_11_28%20PM.webp", title: "Single Room writing workspace", desc: "Equipped work corner to stay productive." },
+            { url: "Hill%20plaza-Shaikhpet/Single%20room/ChatGPT%20Image%20Aug%205,%202026,%2004_13_40%20PM.webp", title: "Bathroom facility", desc: "Clean hygiene setups and toiletries." }
         ]
     },
     abbasi: [
-        { url: "Abbasi%20Tower%20Iram%20Manzil/Living%20Space.png", title: "Grand Living Lounge", desc: "Boasts elegant modern paneling and floor-to-ceiling glass doors." },
-        { url: "Abbasi%20Tower%20Iram%20Manzil/Bedrooms.png", title: "Primary Bedroom Suite", desc: "Customized orthopedic support bedding designed like luxury hotel suites." },
-        { url: "Abbasi%20Tower%20Iram%20Manzil/Bedrooms2.png", title: "Guest Bedroom Suite", desc: "Meticulously modeled bedroom suite with dimmable ambient mood lighting." },
-        { url: "Abbasi%20Tower%20Iram%20Manzil/Dining%20Table.png", title: "Formal Dining Space", desc: "Equipped dining layout featuring custom wood paneling and marble details." },
-        { url: "Abbasi%20Tower%20Iram%20Manzil/Dining%20Table2.png", title: "Dining Table Details", desc: "Curated setups designed for business dinners and family breakfast." },
-        { url: "Abbasi%20Tower%20Iram%20Manzil/Dining%20Experience.png", title: "Gastronomic Details", desc: "Comfortable dining layout presenting culinary comfort." },
-        { url: "Abbasi%20Tower%20Iram%20Manzil/Bathrooms.png", title: "Primary Marble Restroom", desc: "Spa-like marble restrooms fitted with high-pressure showers." },
-        { url: "Abbasi%20Tower%20Iram%20Manzil/Washroom.png", title: "Wash Basin Detailing", desc: "Marble wash area details and premium toiletries." },
-        { url: "Abbasi%20Tower%20Iram%20Manzil/Balcony.jpeg", title: "Private Balcony Lounge", desc: "A cozy pause above the city's rhythm." },
-        { url: "Abbasi%20Tower%20Iram%20Manzil/Work%20Space.png", title: "Integrated Executive Workspace", desc: "Distraction-free desk layout optimized for corporate stays." }
+        { url: "Abbasi%20Tower%20Iram%20Manzil/Living%20Space.webp", title: "Grand Living Lounge", desc: "Boasts elegant modern paneling and floor-to-ceiling glass doors." },
+        { url: "Abbasi%20Tower%20Iram%20Manzil/Bedrooms.webp", title: "Primary Bedroom Suite", desc: "Customized orthopedic support bedding designed like luxury hotel suites." },
+        { url: "Abbasi%20Tower%20Iram%20Manzil/Bedrooms2.webp", title: "Guest Bedroom Suite", desc: "Meticulously modeled bedroom suite with dimmable ambient mood lighting." },
+        { url: "Abbasi%20Tower%20Iram%20Manzil/Dining%20Table.webp", title: "Formal Dining Space", desc: "Equipped dining layout featuring custom wood paneling and marble details." },
+        { url: "Abbasi%20Tower%20Iram%20Manzil/Dining%20Table2.webp", title: "Dining Table Details", desc: "Curated setups designed for business dinners and family breakfast." },
+        { url: "Abbasi%20Tower%20Iram%20Manzil/Dining%20Experience.webp", title: "Gastronomic Details", desc: "Comfortable dining layout presenting culinary comfort." },
+        { url: "Abbasi%20Tower%20Iram%20Manzil/Bathrooms.webp", title: "Primary Marble Restroom", desc: "Spa-like marble restrooms fitted with high-pressure showers." },
+        { url: "Abbasi%20Tower%20Iram%20Manzil/Washroom.webp", title: "Wash Basin Detailing", desc: "Marble wash area details and premium toiletries." },
+        { url: "Abbasi%20Tower%20Iram%20Manzil/Balcony.webp", title: "Private Balcony Lounge", desc: "A cozy pause above the city's rhythm." },
+        { url: "Abbasi%20Tower%20Iram%20Manzil/Work%20Space.webp", title: "Integrated Executive Workspace", desc: "Distraction-free desk layout optimized for corporate stays." }
     ]
 };
 
@@ -588,7 +619,7 @@ function initSpacesFilter() {
             // Build temporary pool from all visible spaces items
             const visibleItems = Array.from(items).filter(i => i.style.display !== 'none');
             const pool = visibleItems.map(i => ({
-                url: i.style.backgroundImage.replace(/^url\(['"](.+)['"]\)/, '$1'),
+                url: i.dataset.bg || i.style.backgroundImage.replace(/^url\(['"](.+)['"]\)/, '$1'),
                 title: i.getAttribute('data-title') || 'BLIV Residence Space',
                 desc: i.getAttribute('data-desc') || 'A comfortable space designed for modern living.'
             }));
